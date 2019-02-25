@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 public class Course implements Serializable {
 
+    private String dsz;
     private String courseName;
     private String teacher;
     private String classRoom;
@@ -12,13 +13,14 @@ public class Course implements Serializable {
     private int classStart;
     private int classEnd;
 
-    public Course(String courseName, String teacher, String classRoom, int day, int classStart, int classEnd) {
+    public Course(String courseName, String teacher, String classRoom, int day, int classStart, int classEnd, String dsz) {
         this.courseName = courseName;
         this.teacher = teacher;
         this.classRoom = classRoom;
         this.day = day;
         this.classStart = classStart;
         this.classEnd = classEnd;
+        this.dsz = dsz;
     }
 
     public String getCourseName() {
@@ -68,4 +70,13 @@ public class Course implements Serializable {
     public void setEnd(int classEnd) {
         this.classEnd = classEnd;
     }
+
+    public String getDsz() {
+        return dsz;
+    }
+
+    public void setDsz(String dsz) {
+        this.dsz = dsz;
+    }
+
 }

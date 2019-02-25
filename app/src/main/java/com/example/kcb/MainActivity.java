@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+
 public class MainActivity extends AppCompatActivity {
 
     //星期几
@@ -62,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex("class_room")),
                         cursor.getInt(cursor.getColumnIndex("day")),
                         cursor.getInt(cursor.getColumnIndex("class_start")),
-                        cursor.getInt(cursor.getColumnIndex("class_end"))));
+                        cursor.getInt(cursor.getColumnIndex("class_end")),
+                        cursor.getString(cursor.getColumnIndex("dsz"))));
+                Log.d("数据库信息：",String.valueOf(cursor.getColumnIndex("dsz")));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -78,13 +81,14 @@ public class MainActivity extends AppCompatActivity {
     private void saveData(Course course) {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         sqLiteDatabase.execSQL
-                ("insert into courses(course_name, teacher, class_room, day, class_start, class_end) " + "values(?, ?, ?, ?, ?, ?)",
+                ("insert into courses(course_name, teacher, class_room, day, class_start, class_end, dsz) " + "values(?, ?, ?, ?, ?, ?, ?)",
                         new String[]{course.getCourseName(),
                                 course.getTeacher(),
                                 course.getClassRoom(),
                                 course.getDay() + "",
                                 course.getStart() + "",
-                                course.getEnd() + ""}
+                                course.getEnd() + "",
+                                course.getDsz()}
                 );
     }
 
@@ -155,7 +159,40 @@ public class MainActivity extends AppCompatActivity {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    
+                    AlertDialog.Builder builder=new AlertDialog.Builder(that);
+                    LinearLayout CourseDialog= (LinearLayout) getLayoutInflater().inflate(R.layout.activity_course_info,null);
+                    TextView tv_course_name = (TextView)CourseDialog.findViewById(R.id.tv_course_name);
+                    TextView tv_teacher = (TextView)CourseDialog.findViewById(R.id.tv_teacher);
+                    TextView tv_room = (TextView)CourseDialog.findViewById(R.id.tv_room);
+                    TextView tv_time = (TextView)CourseDialog.findViewById(R.id.tv_time);
+                    TextView tv_time_week = (TextView)CourseDialog.findViewById(R.id.tv_time_week);
+                    TextView tv_dsz = (TextView)CourseDialog.findViewById(R.id.tv_dsz);
+                    tv_course_name.setText(course.getCourseName());
+                    tv_teacher.setText(course.getTeacher());
+                    tv_room.setText(course.getClassRoom());
+                    tv_time.setText("第 " + course.getStart() + " - " + course.getEnd() + " 节");
+                    String day = String.valueOf(course.getDay());
+                    if (day.equals("1"))
+                        day = "星期一";
+                    else if (day.equals("2"))
+                        day = "星期二";
+                    else if (day.equals("3"))
+                        day = "星期三";
+                    else if (day.equals("4"))
+                        day = "星期四";
+                    else if (day.equals("5"))
+                        day = "星期五";
+                    else if (day.equals("6"))
+                        day = "星期六";
+                    else if (day.equals("7"))
+                        day = "星期日";
+                    tv_time_week.setText(day);
+                    tv_dsz.setText(course.getDsz());
+                    builder.setView(CourseDialog);
+
+                    builder.setCancelable(true);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             });
             //长按删除课程
