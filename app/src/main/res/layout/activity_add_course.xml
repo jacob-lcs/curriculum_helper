@@ -92,6 +92,21 @@
                 android:layout_gravity="center"
                 android:imeOptions="actionNext"
                 android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="是否单双周(0：单，1：双，2：非单双周)" />
+
+            <EditText
+                android:id="@+id/dsz"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:layout_gravity="center"/>
+
         </LinearLayout>
     </ScrollView>
 

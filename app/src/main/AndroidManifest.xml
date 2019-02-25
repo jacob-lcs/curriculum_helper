@@ -17,14 +17,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="新建课程"
             android:name=".AddCourseActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
-
+            android:label="新建课程"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".AboutActivity"
             android:label="关于"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".course_info"></activity>
     </application>
 
 </manifest>
