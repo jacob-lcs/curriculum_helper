@@ -18,13 +18,15 @@
         </activity>
         <activity
             android:name=".AddCourseActivity"
-            android:label="新建课程"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:label="新建课程" />
         <activity
             android:name=".AboutActivity"
-            android:label="关于"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".course_info"></activity>
+            android:label="关于" />
+        <activity
+            android:name=".Settings"
+            android:label="设置" />
+        <activity android:name=".course_info" />
+        <activity android:name=".Add_homework"></activity>
     </application>
 
 </manifest>

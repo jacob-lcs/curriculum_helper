@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/bg" />
+            android:src="@drawable/bg_final" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                android:background="#7fab96c5"
+                android:background="#00000000"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/AlertDialog.AppCompat.Light"/>
 
@@ -35,55 +35,63 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:background="#7fab96c5">
+                android:background="#00000000">
 
                 <TextView
                     android:layout_width="110px"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="节/周"/>
+                    android:text="节/周"
+                    android:textColor="#000000"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="周一"/>
+                    android:text="周一"
+                    android:textColor="#000000"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="周二"/>
+                    android:text="周二"
+                    android:textColor="#000000"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="周三"/>
+                    android:text="周三"
+                    android:textColor="#000000"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="周四"/>
+                    android:text="周四"
+                    android:textColor="#000000"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="周五"/>
+                    android:text="周五"
+                    android:textColor="#000000"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="周六"/>
+                    android:text="周六"
+                    android:textColor="#000000"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="周日"/>
+                    android:text="周日"
+                    android:textColor="#000000"/>
             </LinearLayout>
             <!--课程表-->
             <LinearLayout

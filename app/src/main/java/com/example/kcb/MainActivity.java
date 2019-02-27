@@ -25,10 +25,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    //星期几
+    /** 星期几 */
     private RelativeLayout day;
 
-    //SQLite Helper类
+    /**SQLite Helper类*/
     private DatabaseHelper databaseHelper = new DatabaseHelper
             (this, "database.db", null, 1);
 
@@ -50,9 +50,10 @@ public class MainActivity extends AppCompatActivity {
         createLeftView(13);
     }
 
-    //从数据库加载数据
+    /**从数据库加载数据*/
     private void loadData() {
-        ArrayList<Course> coursesList = new ArrayList<>(); //课程列表
+        ArrayList<Course> coursesList = new ArrayList<>();
+        //课程列表
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select * from courses", null);
         if (cursor.moveToFirst()) {
@@ -64,8 +65,10 @@ public class MainActivity extends AppCompatActivity {
                         cursor.getInt(cursor.getColumnIndex("day")),
                         cursor.getInt(cursor.getColumnIndex("class_start")),
                         cursor.getInt(cursor.getColumnIndex("class_end")),
-                        cursor.getString(cursor.getColumnIndex("dsz"))));
-                Log.d("数据库信息：",String.valueOf(cursor.getColumnIndex("dsz")));
+                        cursor.getString(cursor.getColumnIndex("dsz")),
+                        cursor.getString(cursor.getColumnIndex("homework"))));
+                Log.d("数据库信息：", cursor.getString(cursor.getColumnIndex("homework")));
+                Log.d("测试信息","ddd");
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -77,18 +80,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //保存数据到数据库
+    /** 保存数据到数据库 */
     private void saveData(Course course) {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         sqLiteDatabase.execSQL
-                ("insert into courses(course_name, teacher, class_room, day, class_start, class_end, dsz) " + "values(?, ?, ?, ?, ?, ?, ?)",
+                ("insert into courses(course_name, teacher, class_room, day, class_start, class_end, dsz, homework) " + "values(?, ?, ?, ?, ?, ?, ?, ?)",
                         new String[]{course.getCourseName(),
                                 course.getTeacher(),
                                 course.getClassRoom(),
                                 course.getDay() + "",
                                 course.getStart() + "",
                                 course.getEnd() + "",
-                                course.getDsz()}
+                                course.getDsz() + "",
+                                course.getHomework()}
+                                //单双周
                 );
     }
 
@@ -111,11 +116,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //创建单个课程视图
+    /** 创建单个课程视图 */
     private void createItemCourseView(final Course course) {
         int getDay = course.getDay();
-        if ((getDay < 1 || getDay > 7) || course.getStart() > course.getEnd())
+        if ((getDay < 1 || getDay > 7) || course.getStart() > course.getEnd()){
             Toast.makeText(this, "星期几没写对,或课程结束时间比开始时间还早~~", Toast.LENGTH_LONG).show();
+        }
         else {
             int dayId = 0;
             switch (getDay) {
@@ -144,13 +150,17 @@ public class MainActivity extends AppCompatActivity {
             day = findViewById(dayId);
 
             int height = 180;
-            final View v = LayoutInflater.from(this).inflate(R.layout.course_card, null); //加载单个课程布局
-            v.setY(height * (course.getStart() - 1)); //设置开始高度,即第几节课开始
+            final View v = LayoutInflater.from(this).inflate(R.layout.course_card, null);
+            //加载单个课程布局
+            v.setY(height * (course.getStart() - 1));
+            //设置开始高度,即第几节课开始
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
-                    (ViewGroup.LayoutParams.MATCH_PARENT, (course.getEnd() - course.getStart() + 1) * height - 8); //设置布局高度,即跨多少节课
+                    (ViewGroup.LayoutParams.MATCH_PARENT, (course.getEnd() - course.getStart() + 1) * height - 8);
+            //设置布局高度,即跨多少节课
             v.setLayoutParams(params);
             TextView text = v.findViewById(R.id.text_view);
-            text.setText(course.getCourseName() + "\n" + course.getTeacher() + "\n" + course.getClassRoom()); //显示课程名
+            text.setText(course.getCourseName() + "\n" + course.getTeacher() + "\n" + course.getClassRoom());
+            //显示课程名
             day.addView(v);
 
             final android.content.Context that = this;
@@ -159,18 +169,21 @@ public class MainActivity extends AppCompatActivity {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AlertDialog.Builder builder=new AlertDialog.Builder(that);
-                    LinearLayout CourseDialog= (LinearLayout) getLayoutInflater().inflate(R.layout.activity_course_info,null);
-                    TextView tv_course_name = (TextView)CourseDialog.findViewById(R.id.tv_course_name);
-                    TextView tv_teacher = (TextView)CourseDialog.findViewById(R.id.tv_teacher);
-                    TextView tv_room = (TextView)CourseDialog.findViewById(R.id.tv_room);
-                    TextView tv_time = (TextView)CourseDialog.findViewById(R.id.tv_time);
-                    TextView tv_time_week = (TextView)CourseDialog.findViewById(R.id.tv_time_week);
-                    TextView tv_dsz = (TextView)CourseDialog.findViewById(R.id.tv_dsz);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(that);
+                    LinearLayout CourseDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_course_info, null);
+                    TextView tv_course_name = (TextView) CourseDialog.findViewById(R.id.tv_course_name);
+                    TextView tv_teacher = (TextView) CourseDialog.findViewById(R.id.tv_teacher);
+                    TextView tv_room = (TextView) CourseDialog.findViewById(R.id.tv_room);
+                    TextView tv_time = (TextView) CourseDialog.findViewById(R.id.tv_time);
+                    TextView tv_time_week = (TextView) CourseDialog.findViewById(R.id.tv_time_week);
+                    TextView tv_dsz = (TextView) CourseDialog.findViewById(R.id.tv_dsz);
+                    TextView tv_homework = (TextView) CourseDialog.findViewById(R.id.homework);
                     tv_course_name.setText(course.getCourseName());
                     tv_teacher.setText(course.getTeacher());
                     tv_room.setText(course.getClassRoom());
                     tv_time.setText("第 " + course.getStart() + " - " + course.getEnd() + " 节");
+                    tv_homework.setText(course.getHomework());
+                    Log.d("获取到的课程作业为：", course.getHomework());
                     String day = String.valueOf(course.getDay());
                     if (day.equals("1"))
                         day = "星期一";
@@ -192,7 +205,16 @@ public class MainActivity extends AppCompatActivity {
 
                     builder.setCancelable(true);
                     AlertDialog dialog = builder.create();
+
                     dialog.show();
+                    dialog.getWindow().findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(MainActivity.this,"test", Toast.LENGTH_LONG).show();
+                            Log.d("啦啦啦啦啦：","test");
+                        }
+                    });
+
                 }
             });
             //长按删除课程
@@ -205,8 +227,10 @@ public class MainActivity extends AppCompatActivity {
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    v.setVisibility(View.GONE);//先隐藏
-                                    day.removeView(v);//再移除课程视图
+                                    v.setVisibility(View.GONE);
+                                    //先隐藏
+                                    day.removeView(v);
+                                    //再移除课程视图
                                     SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
                                     sqLiteDatabase.execSQL("delete from courses where course_name = ?", new String[]{course.getCourseName()});
                                     Log.v("testDialog", "click button ok");
@@ -235,13 +259,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final android.content.Context that = this;
         switch (item.getItemId()) {
             case R.id.add_courses:
+
                 Intent intent = new Intent(MainActivity.this, AddCourseActivity.class);
                 startActivityForResult(intent, 0);
+//                AlertDialog.Builder builder = new AlertDialog.Builder(that);
+//                LinearLayout CourseDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_add_course, null);
+//                builder.setView(CourseDialog);
+//                builder.setCancelable(true);
+//                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                });
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
                 break;
             case R.id.menu_about:
-                Intent intent1 = new Intent(this, AboutActivity.class);
+                Intent intent1 = new Intent(this, Settings.class);
                 startActivity(intent1);
                 break;
         }

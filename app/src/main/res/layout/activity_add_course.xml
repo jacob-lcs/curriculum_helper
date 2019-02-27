@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="250dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:scrollbars="vertical"
-        android:scrollbarAlwaysDrawHorizontalTrack="true">
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbars="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -22,90 +23,111 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="\n课程名:" />
+                android:text="\n课程名:"
+                android:textColor="#000000" />
+
             <EditText
                 android:id="@+id/course_name"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:imeOptions="actionNext"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#000000" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="\n星期几:" />
+                android:text="\n星期几:"
+                android:textColor="#000000" />
+
             <EditText
                 android:id="@+id/week"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="#000000" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="\n第几节课开始:" />
+                android:text="\n第几节课开始:"
+                android:textColor="#000000" />
+
             <EditText
                 android:id="@+id/classes_begin"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="#000000" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="\n第几节课结束:" />
+                android:text="\n第几节课结束:"
+                android:textColor="#000000" />
+
             <EditText
                 android:id="@+id/classes_ends"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="#000000" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="\n教师名:" />
+                android:text="\n教师名:"
+                android:textColor="#000000" />
+
             <EditText
                 android:id="@+id/teacher_name"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:imeOptions="actionNext"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#000000" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="\n课室:" />
+                android:text="\n课室:"
+                android:textColor="#000000" />
+
             <EditText
                 android:id="@+id/class_room"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:imeOptions="actionNext"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="是否单双周(0：单，1：双，2：非单双周)" />
+                android:layout_gravity="center"
+                android:text="是否单双周(0：单，1：双，2：非单双周)"
+                android:textColor="#000000" />
 
             <EditText
                 android:id="@+id/dsz"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:ems="10"
                 android:inputType="number"
-                android:layout_gravity="center"/>
+                android:textColor="#000000" />
 
         </LinearLayout>
     </ScrollView>
@@ -114,14 +136,11 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:layout_gravity="center"
-        android:text="完成" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="\n 在课程表界面长按一个课程可以删除它 \n"/>
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_bg_red"
+        android:text="完成"
+        android:textColor="#000000" />
 
 </LinearLayout>

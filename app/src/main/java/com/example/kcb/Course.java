@@ -1,5 +1,6 @@
 package com.example.kcb;
 
+import android.util.Log;
 
 import java.io.Serializable;
 
@@ -9,11 +10,12 @@ public class Course implements Serializable {
     private String courseName;
     private String teacher;
     private String classRoom;
+    private String homework;
     private int day;
     private int classStart;
     private int classEnd;
 
-    public Course(String courseName, String teacher, String classRoom, int day, int classStart, int classEnd, String dsz) {
+    public Course(String courseName, String teacher, String classRoom, int day, int classStart, int classEnd, String dsz, String homework) {
         this.courseName = courseName;
         this.teacher = teacher;
         this.classRoom = classRoom;
@@ -21,6 +23,7 @@ public class Course implements Serializable {
         this.classStart = classStart;
         this.classEnd = classEnd;
         this.dsz = dsz;
+        this.homework = homework;
     }
 
     public String getCourseName() {
@@ -77,6 +80,14 @@ public class Course implements Serializable {
 
     public void setDsz(String dsz) {
         this.dsz = dsz;
+    }
+
+    public void setHomework(String homework){
+        this.homework = homework;
+    }
+
+    public String getHomework(){
+        return homework;
     }
 
 }
