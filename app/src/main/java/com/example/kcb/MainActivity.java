@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,10 +27,14 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    /** 星期几 */
+    /**
+     * 星期几
+     */
     private RelativeLayout day;
 
-    /**SQLite Helper类*/
+    /**
+     * SQLite Helper类
+     */
     private DatabaseHelper databaseHelper = new DatabaseHelper
             (this, "database.db", null, 1);
 
@@ -50,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
         createLeftView(13);
     }
 
-    /**从数据库加载数据*/
+    /**
+     * 从数据库加载数据
+     */
     private void loadData() {
         ArrayList<Course> coursesList = new ArrayList<>();
         //课程列表
@@ -68,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex("dsz")),
                         cursor.getString(cursor.getColumnIndex("homework"))));
                 Log.d("数据库信息：", cursor.getString(cursor.getColumnIndex("homework")));
-                Log.d("测试信息","ddd");
+                Log.d("测试信息", "ddd");
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -80,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** 保存数据到数据库 */
+    /**
+     * 保存数据到数据库
+     */
     private void saveData(Course course) {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         sqLiteDatabase.execSQL
@@ -93,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                 course.getEnd() + "",
                                 course.getDsz() + "",
                                 course.getHomework()}
-                                //单双周
+                        //单双周
                 );
     }
 
@@ -116,13 +126,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** 创建单个课程视图 */
+    /**
+     * 创建单个课程视图
+     */
     private void createItemCourseView(final Course course) {
         int getDay = course.getDay();
-        if ((getDay < 1 || getDay > 7) || course.getStart() > course.getEnd()){
+        if ((getDay < 1 || getDay > 7) || course.getStart() > course.getEnd()) {
             Toast.makeText(this, "星期几没写对,或课程结束时间比开始时间还早~~", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             int dayId = 0;
             switch (getDay) {
                 case 1:
@@ -210,8 +221,8 @@ public class MainActivity extends AppCompatActivity {
                     dialog.getWindow().findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(MainActivity.this,"test", Toast.LENGTH_LONG).show();
-                            Log.d("啦啦啦啦啦：","test");
+                            Toast.makeText(MainActivity.this, "test", Toast.LENGTH_LONG).show();
+                            Log.d("啦啦啦啦啦：", "test");
                         }
                     });
 
@@ -263,20 +274,58 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add_courses:
 
-                Intent intent = new Intent(MainActivity.this, AddCourseActivity.class);
-                startActivityForResult(intent, 0);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(that);
-//                LinearLayout CourseDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_add_course, null);
-//                builder.setView(CourseDialog);
-//                builder.setCancelable(true);
-//                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                    }
-//                });
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
+//                Intent intent = new Intent(MainActivity.this, AddCourseActivity.class);
+//                startActivityForResult(intent, 0);
+                AlertDialog.Builder builder = new AlertDialog.Builder(that);
+                LinearLayout CourseDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_add_course, null);
+                builder.setView(CourseDialog);
+                builder.setCancelable(true);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getWindow().findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final EditText inputCourseName = (EditText) dialog.getWindow().findViewById(R.id.course_name);
+                        final EditText inputTeacher = (EditText) dialog.getWindow().findViewById(R.id.teacher_name);
+                        final EditText inputClassRoom = (EditText) dialog.getWindow().findViewById(R.id.class_room);
+                        final EditText inputDay = (EditText) dialog.getWindow().findViewById(R.id.week);
+                        final EditText inputStart = (EditText) dialog.getWindow().findViewById(R.id.classes_begin);
+                        final EditText inputEnd = (EditText) dialog.getWindow().findViewById(R.id.classes_ends);
+                        final EditText dsz = (EditText) dialog.getWindow().findViewById(R.id.dsz);
+
+                        Button okButton = (Button) dialog.getWindow().findViewById(R.id.button);
+                        okButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String courseName = inputCourseName.getText().toString();
+                                String teacher = inputTeacher.getText().toString();
+                                String classRoom = inputClassRoom.getText().toString();
+                                String day = inputDay.getText().toString();
+                                String start = inputStart.getText().toString();
+                                String end = inputEnd.getText().toString();
+                                String dan = dsz.getText().toString();
+                                String d = "";
+                                Log.d("dan到底是多少", dan);
+                                if (dan.equals("0"))
+                                    d = "单周";
+                                else if (dan.equals("1"))
+                                    d = "双周";
+                                else if (dan.equals("2"))
+                                    d = "全周";
+                                if (courseName.equals("") || day.equals("") || start.equals("") || end.equals("")) {
+                                    Toast.makeText(MainActivity.this, "基本课程信息未填写", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Course course = new Course(courseName, teacher, classRoom,
+                                            Integer.valueOf(day), Integer.valueOf(start), Integer.valueOf(end), d, "无");
+                                    saveData(course);
+                                    loadData();
+                                    Toast.makeText(MainActivity.this,"test",Toast.LENGTH_LONG).show();
+                                    dialog.hide();
+                                }
+                            }
+                        });
+                    }
+                });
                 break;
             case R.id.menu_about:
                 Intent intent1 = new Intent(this, Settings.class);
