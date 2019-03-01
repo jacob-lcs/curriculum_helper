@@ -18,9 +18,6 @@ public class course_info extends AppCompatActivity {
         homework.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(course_info.this,"test", Toast.LENGTH_LONG);
-                Intent intent = new Intent(course_info.this, Add_homework.class);
-                startActivity(intent);
             }
         });
     }

@@ -196,32 +196,48 @@ public class MainActivity extends AppCompatActivity {
                     tv_homework.setText(course.getHomework());
                     Log.d("获取到的课程作业为：", course.getHomework());
                     String day = String.valueOf(course.getDay());
-                    if (day.equals("1"))
+                    if (day.equals("1")) {
                         day = "星期一";
-                    else if (day.equals("2"))
+                    } else if (day.equals("2")) {
                         day = "星期二";
-                    else if (day.equals("3"))
+                    } else if (day.equals("3")) {
                         day = "星期三";
-                    else if (day.equals("4"))
+                    } else if (day.equals("4")) {
                         day = "星期四";
-                    else if (day.equals("5"))
+                    } else if (day.equals("5")) {
                         day = "星期五";
-                    else if (day.equals("6"))
+                    } else if (day.equals("6")) {
                         day = "星期六";
-                    else if (day.equals("7"))
+                    } else if (day.equals("7")) {
                         day = "星期日";
+                    }
                     tv_time_week.setText(day);
                     tv_dsz.setText(course.getDsz());
                     builder.setView(CourseDialog);
 
                     builder.setCancelable(true);
-                    AlertDialog dialog = builder.create();
+                    final AlertDialog dialog = builder.create();
 
                     dialog.show();
                     dialog.getWindow().findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(MainActivity.this, "test", Toast.LENGTH_LONG).show();
+                            dialog.getWindow().findViewById(R.id.button2).setVisibility(View.GONE);
+                            dialog.getWindow().findViewById(R.id.button3).setVisibility(View.VISIBLE);
+                            dialog.getWindow().findViewById(R.id.editText2).setVisibility(View.VISIBLE);
+
+                            final String name = course.getCourseName();
+                            dialog.getWindow().findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    EditText homework = (EditText)dialog.getWindow().findViewById(R.id.editText2);
+                                    String work = homework.getText().toString();
+                                    SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+                                    sqLiteDatabase.execSQL("update courses set homework=? where course_name=?" , new String[]{work, name});
+                                    dialog.hide();
+                                    loadData();
+                                }
+                            });
                             Log.d("啦啦啦啦啦：", "test");
                         }
                     });
@@ -319,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
                                             Integer.valueOf(day), Integer.valueOf(start), Integer.valueOf(end), d, "无");
                                     saveData(course);
                                     loadData();
-                                    Toast.makeText(MainActivity.this,"test",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(MainActivity.this, "test", Toast.LENGTH_LONG).show();
                                     dialog.hide();
                                 }
                             }
