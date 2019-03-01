@@ -159,17 +159,29 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="作业：   "
-            android:textAlignment="viewEnd"
+            android:text="作业:"
+            android:textAlignment="center"
             android:textColor="#000000"
             tools:ignore="RtlCompat" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/homework"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/dialog_style"
             android:gravity="center"
+            android:maxLines="3"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:textAlignment="textStart"
             android:textColor="#000000"
             tools:ignore="RtlCompat" />
@@ -185,13 +197,13 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone"
             android:background="@drawable/dialog_style"
             android:ems="10"
             android:gravity="center"
             android:maxLines="5"
             android:minLines="5"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:visibility="gone" />
 
 
     </LinearLayout>
@@ -204,6 +216,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/btn_bg_red"
         android:text="添加作业"
+        android:onClick="notification"
         android:textColor="#000000" />
     <Button
         android:id="@+id/button3"
@@ -215,7 +228,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_bg_red"
         android:text="确定"
-        android:textColor="#000000" />
+        android:textColor="#000000"/>
 
 
 </LinearLayout>

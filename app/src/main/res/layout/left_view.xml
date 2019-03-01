@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="#FFFFFF"/>
 
     <TextView
         android:id="@+id/class_number_text"
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textColor="#000000"/>
+        android:textColor="#FFFFFF"/>
 
     <TextView
         android:id="@+id/time_end"

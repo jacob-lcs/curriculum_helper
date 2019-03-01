@@ -1,14 +1,25 @@
 package com.example.kcb;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,14 +34,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
-
     /**
      * 星期几
      */
     private RelativeLayout day;
+
 
     /**
      * SQLite Helper类
@@ -113,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         if (endNumber > maxCoursesNumber) {
             for (int i = 0; i < endNumber - maxCoursesNumber; i++) {
                 View view = LayoutInflater.from(this).inflate(R.layout.left_view, null);
+//                view.findViewById(R.id.left).setBackgroundColor(Color.parseColor("#00000000"));
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(110, 180);
                 view.setLayoutParams(params);
 
@@ -130,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
      * 创建单个课程视图
      */
     private void createItemCourseView(final Course course) {
+        final android.content.Context that = this;
         int getDay = course.getDay();
         if ((getDay < 1 || getDay > 7) || course.getStart() > course.getEnd()) {
             Toast.makeText(this, "星期几没写对,或课程结束时间比开始时间还早~~", Toast.LENGTH_LONG).show();
@@ -172,14 +186,19 @@ public class MainActivity extends AppCompatActivity {
             TextView text = v.findViewById(R.id.text_view);
             text.setText(course.getCourseName() + "\n" + course.getTeacher() + "\n" + course.getClassRoom());
             //显示课程名
+            String [] a = {"#f17c67","#9966CC","#BDB76A","#008573","#FE4C40","#DE3163"};
+            Random random = new Random();
+            int n = random.nextInt(6);
+            v.findViewById(R.id.CardView1).setBackgroundColor(Color.parseColor(a[n]));
+            v.findViewById(R.id.CardView1).getBackground().setAlpha(200);
             day.addView(v);
 
-            final android.content.Context that = this;
 
             //单击查看课程详情
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(that);
                     LinearLayout CourseDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_course_info, null);
                     TextView tv_course_name = (TextView) CourseDialog.findViewById(R.id.tv_course_name);
@@ -188,11 +207,12 @@ public class MainActivity extends AppCompatActivity {
                     TextView tv_time = (TextView) CourseDialog.findViewById(R.id.tv_time);
                     TextView tv_time_week = (TextView) CourseDialog.findViewById(R.id.tv_time_week);
                     TextView tv_dsz = (TextView) CourseDialog.findViewById(R.id.tv_dsz);
-                    TextView tv_homework = (TextView) CourseDialog.findViewById(R.id.homework);
+                    final TextView tv_homework = (TextView) CourseDialog.findViewById(R.id.homework);
                     tv_course_name.setText(course.getCourseName());
                     tv_teacher.setText(course.getTeacher());
                     tv_room.setText(course.getClassRoom());
                     tv_time.setText("第 " + course.getStart() + " - " + course.getEnd() + " 节");
+                    tv_homework.setMovementMethod(ScrollingMovementMethod.getInstance());
                     tv_homework.setText(course.getHomework());
                     Log.d("获取到的课程作业为：", course.getHomework());
                     String day = String.valueOf(course.getDay());
@@ -222,26 +242,26 @@ public class MainActivity extends AppCompatActivity {
                     dialog.getWindow().findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            final String work_before = tv_homework.getText().toString();
                             dialog.getWindow().findViewById(R.id.button2).setVisibility(View.GONE);
+                            tv_homework.setVisibility(View.GONE);
                             dialog.getWindow().findViewById(R.id.button3).setVisibility(View.VISIBLE);
-                            dialog.getWindow().findViewById(R.id.editText2).setVisibility(View.VISIBLE);
 
                             final String name = course.getCourseName();
                             dialog.getWindow().findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    EditText homework = (EditText)dialog.getWindow().findViewById(R.id.editText2);
+
+                                    EditText homework = (EditText) dialog.getWindow().findViewById(R.id.editText2);
                                     String work = homework.getText().toString();
                                     SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
-                                    sqLiteDatabase.execSQL("update courses set homework=? where course_name=?" , new String[]{work, name});
+                                    sqLiteDatabase.execSQL("update courses set homework=? where course_name=?", new String[]{work, name});
                                     dialog.hide();
                                     loadData();
                                 }
                             });
-                            Log.d("啦啦啦啦啦：", "test");
                         }
                     });
-
                 }
             });
             //长按删除课程
@@ -324,10 +344,12 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("dan到底是多少", dan);
                                 if (dan.equals("0"))
                                     d = "单周";
-                                else if (dan.equals("1"))
+                                else if (dan.equals("1")){
                                     d = "双周";
-                                else if (dan.equals("2"))
+                                }
+                                else if (dan.equals("2")){
                                     d = "全周";
+                                }
                                 if (courseName.equals("") || day.equals("") || start.equals("") || end.equals("")) {
                                     Toast.makeText(MainActivity.this, "基本课程信息未填写", Toast.LENGTH_SHORT).show();
                                 } else {
@@ -347,9 +369,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(this, Settings.class);
                 startActivity(intent1);
                 break;
+            case R.id.daka:
+                Intent intent2 = new Intent(MainActivity.this, daka.class);
+                startActivity(intent2);
         }
         return true;
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -363,5 +389,7 @@ public class MainActivity extends AppCompatActivity {
             saveData(course);
         }
     }
+
+
 
 }

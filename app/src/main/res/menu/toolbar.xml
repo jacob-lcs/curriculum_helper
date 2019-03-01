@@ -8,8 +8,14 @@
         android:title="添加/修改课程"
         app:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/daka"
+        android:icon="@drawable/daka"
+        android:title="打卡"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/menu_about"
         android:icon="@drawable/above"
-        android:title="关于"
+        android:title="设置"
         app:showAsAction="ifRoom"/>
+
 </menu>

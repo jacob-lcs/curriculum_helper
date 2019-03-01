@@ -26,7 +26,8 @@
             android:name=".Settings"
             android:label="设置" />
         <activity android:name=".course_info" />
-        <activity android:name=".Add_homework"></activity>
+        <activity android:name=".Add_homework" />
+        <activity android:name=".daka"></activity>
     </application>
 
 </manifest>
