@@ -89,9 +89,12 @@ public class daka extends AppCompatActivity {
 
                         thing new_thing = new thing(thing_name, thing_day, thing_info, thing_icon, "");
                         saveData(new_thing);
-                        Toast.makeText(daka.this, "test" + thing_name, Toast.LENGTH_LONG).show();
                         Log.d("test", thing_name);
                         initThing();
+                        DakaAdapter adapter = new DakaAdapter(daka.this, R.layout.list_item, thingList);
+                        ListView listView = (ListView) findViewById(R.id.daka_list);
+
+                        listView.setAdapter(adapter);
                         dialog.hide();
 
                     }
@@ -139,7 +142,7 @@ public class daka extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                thing thing = thingList.get(i);
+                thing thing1 = thingList.get(i);
                 SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
                 Cursor cursor = sqLiteDatabase.rawQuery("select * from thing", null);
                 Calendar calendar = Calendar.getInstance();
@@ -148,22 +151,28 @@ public class daka extends AppCompatActivity {
 
                 String dateStr = sdf.format(calendar.getTime());
                 if (cursor.moveToFirst()) {
-                    Log.d("数据库日期为",cursor.getString(cursor.getColumnIndex("date")));
-                    Log.d("系统日期为",dateStr);
-                    if(cursor.getString(cursor.getColumnIndex("date")).equals(dateStr)){
-                        Toast.makeText(daka.this,"今日已打卡",Toast.LENGTH_LONG).show();
-                    }else{
-                        sqLiteDatabase.execSQL
-                                ("update thing set date=?,thing_day=? where thing_name=?",
-                                        new String[]{dateStr,String.valueOf(thing.getDay()+1),thing.getName()}
-                                );
-                        Toast.makeText(daka.this,"打卡成功",Toast.LENGTH_LONG).show();
-                        initThing();
-                        DakaAdapter adapter = new DakaAdapter(daka.this, R.layout.list_item, thingList);
-                        ListView listView = (ListView) findViewById(R.id.daka_list);
+                    do {
+                        if (cursor.getString(cursor.getColumnIndex("thing_name")).equals(thing1.getName())) {
+                            Log.d("数据库日期为", cursor.getString(cursor.getColumnIndex("date")));
+                            Log.d("系统日期为", dateStr);
+                            if (cursor.getString(cursor.getColumnIndex("date")).equals(dateStr)) {
+                                Toast.makeText(daka.this, "今日已打卡", Toast.LENGTH_LONG).show();
+                            } else {
+                                sqLiteDatabase.execSQL
+                                        ("update thing set date=?,thing_day=? where thing_name=?",
+                                                new String[]{dateStr, String.valueOf(thing1.getDay() + 1), thing1.getName()}
+                                        );
+                                Toast.makeText(daka.this, "打卡成功", Toast.LENGTH_LONG).show();
+                                initThing();
+                                DakaAdapter adapter = new DakaAdapter(daka.this, R.layout.list_item, thingList);
+                                ListView listView = (ListView) findViewById(R.id.daka_list);
 
-                        listView.setAdapter(adapter);
-                    }
+                                listView.setAdapter(adapter);
+                            }
+                        }
+                    } while (cursor.moveToNext());
+
+
                 }
             }
         });
