@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         //课程列表
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select * from courses", null);
+        coursesList.clear();
         if (cursor.moveToFirst()) {
             do {
                 coursesList.add(new Course(
@@ -241,22 +242,24 @@ public class MainActivity extends AppCompatActivity {
                     dialog.show();
                     dialog.getWindow().findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View view) {
+                        public void onClick(final View view) {
                             final String work_before = tv_homework.getText().toString();
                             dialog.getWindow().findViewById(R.id.button2).setVisibility(View.GONE);
                             tv_homework.setVisibility(View.GONE);
                             dialog.getWindow().findViewById(R.id.button3).setVisibility(View.VISIBLE);
-
+                            dialog.getWindow().findViewById(R.id.editText2).setVisibility(View.VISIBLE);
                             final String name = course.getCourseName();
                             dialog.getWindow().findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(View view) {
+                                public void onClick(View v) {
 
                                     EditText homework = (EditText) dialog.getWindow().findViewById(R.id.editText2);
                                     String work = homework.getText().toString();
                                     SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
                                     sqLiteDatabase.execSQL("update courses set homework=? where course_name=?", new String[]{work, name});
                                     dialog.hide();
+                                    view.setVisibility(View.GONE);
+                                    //先隐藏
                                     loadData();
                                 }
                             });
@@ -365,10 +368,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case R.id.menu_about:
-                Intent intent1 = new Intent(this, Settings.class);
-                startActivity(intent1);
-                break;
+//            case R.id.menu_about:
+//                Intent intent1 = new Intent(this, Settings.class);
+//                startActivity(intent1);
+//                break;
             case R.id.daka:
                 Intent intent2 = new Intent(MainActivity.this, daka.class);
                 startActivity(intent2);

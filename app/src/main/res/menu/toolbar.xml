@@ -12,10 +12,10 @@
         android:icon="@drawable/daka"
         android:title="打卡"
         app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_about"
-        android:icon="@drawable/above"
-        android:title="设置"
-        app:showAsAction="ifRoom"/>
+    <!--<item-->
+        <!--android:id="@+id/menu_about"-->
+        <!--android:icon="@drawable/above"-->
+        <!--android:title="设置"-->
+        <!--app:showAsAction="ifRoom"/>-->
 
 </menu>

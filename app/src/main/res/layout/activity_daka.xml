@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".daka">
+    tools:context=".daka"
+    android:background="#FFFFFF">
 
-</android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/daka"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打卡"
+        android:textSize="25dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#000000"/>
+
+    <ListView
+        android:id="@+id/daka_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_thing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/add"
+        app:backgroundTint="#2A8FBD"
+        app:elevation="8dp" />
+
+</FrameLayout>

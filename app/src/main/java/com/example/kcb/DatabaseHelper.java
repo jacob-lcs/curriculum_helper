@@ -22,6 +22,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "class_end integer," +
                 "dsz text," +
                 "homework text)");
+
+        db.execSQL("create table thing(" +
+                "id integer primary key autoincrement," +
+                "thing_name text," +
+                "thing_day integer," +
+                "thing_info text," +
+                "date text," +
+                "thing_icon text)");
     }
 
     @Override
