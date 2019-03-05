@@ -1,5 +1,6 @@
 package com.example.kcb;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
@@ -25,22 +26,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.wang.avi.AVLoadingIndicatorView;
 
 public class login_in extends AppCompatActivity {
+    private AVLoadingIndicatorView avi;
 
     private static Handler handler = new Handler();
+
     /**
      * SQLite Helper类
      */
     private DatabaseHelper databaseHelper = new DatabaseHelper
             (this, "database.db", null, 1);
 
+    private LoadingView loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_in);
-
-
+        final Context that = this;
         final Button login_btn = (Button) findViewById(R.id.btn_login);
         final EditText input_ID = (EditText) findViewById(R.id.input_ID);
         final EditText input_password = (EditText) findViewById(R.id.input_password);
@@ -48,12 +52,13 @@ public class login_in extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
+                loading = new LoadingView(that,R.style.CustomDialog);
                 final String ID = input_ID.getText().toString();
                 final String password = input_password.getText().toString();
                 if (ID.equals("") || password.equals("")) {
                     Toast.makeText(login_in.this, "请输入账号和密码哦~", Toast.LENGTH_LONG).show();
                 } else {
+                    loading.show();
                     new Thread() {
                         public void run() {
                             getCourse(ID, password);
@@ -201,5 +206,7 @@ public class login_in extends AppCompatActivity {
                         //单双周
                 );
     }
+
+
 }
 
