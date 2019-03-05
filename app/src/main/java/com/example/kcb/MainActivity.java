@@ -88,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
                         cursor.getInt(cursor.getColumnIndex("class_end")),
                         cursor.getString(cursor.getColumnIndex("dsz")),
                         cursor.getString(cursor.getColumnIndex("homework"))));
-                Log.d("数据库信息：", cursor.getString(cursor.getColumnIndex("homework")));
-                Log.d("测试信息", "ddd");
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -368,10 +366,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 break;
-//            case R.id.menu_about:
-//                Intent intent1 = new Intent(this, Settings.class);
-//                startActivity(intent1);
-//                break;
+            case R.id.daoru:
+                Intent intent1 = new Intent(this, login_in.class);
+                startActivity(intent1);
+                break;
             case R.id.daka:
                 Intent intent2 = new Intent(MainActivity.this, daka.class);
                 startActivity(intent2);

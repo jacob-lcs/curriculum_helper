@@ -8,6 +8,11 @@
         android:title="添加/修改课程"
         app:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/daoru"
+        android:icon="@drawable/daoru"
+        android:title="导入课程"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/daka"
         android:icon="@drawable/daka"
         android:title="打卡"

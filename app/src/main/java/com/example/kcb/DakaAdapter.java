@@ -64,7 +64,7 @@ public class DakaAdapter extends ArrayAdapter<thing> {
         }
 
         thing_name.setText(thing.getName());
-        thing_day.setText("已连续打卡"+String.valueOf(thing.getDay())+"天");
+        thing_day.setText("已打卡"+String.valueOf(thing.getDay())+"天");
         return view;
     }
 }
