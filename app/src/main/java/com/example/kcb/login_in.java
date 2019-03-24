@@ -77,7 +77,8 @@ public class login_in extends AppCompatActivity {
         String username = number;
         String password = psd;
         try {
-            Connection connect = Jsoup.connect("https://oauth.shu.edu.cn/oauth/authorize?response_type=code&client_id=yRQLJfUsx326fSeKNUCtooKw&redirect_uri=http%3a%2f%2fxk.autoisp.shu.edu.cn%2fpassport%2freturn");
+//            Connection connect = Jsoup.connect("https://oauth.shu.edu.cn/oauth/authorize?response_type=code&client_id=yRQLJfUsx326fSeKNUCtooKw&redirect_uri=http%3a%2f%2fxk.autoisp.shu.edu.cn%2fpassport%2freturn");
+            Connection connect = Jsoup.connect("https://oauth.shu.edu.cn/oauth/authorize?response_type=code&client_id=yRQLJfUsx326fSeKNUCtooKw&redirect_uri=http%3a%2f%2fxk.autoisp.shu.edu.cn%3a8080%2fpassport%2freturn");
             Document doc = connect.get();
 
             Elements ele = doc.body().select("input[name]");
@@ -100,10 +101,11 @@ public class login_in extends AppCompatActivity {
                     .data("SAMLResponse", ele.get(1).attr("value"), "RelayState", ele.get(0).attr("value"))
                     .method(Connection.Method.POST).timeout(10000).execute();
 
-            doc = Jsoup.connect("http://xk.autoisp.shu.edu.cn/StudentQuery/CtrlViewQueryCourseTable")
+            doc = Jsoup.connect("http://xk.autoisp.shu.edu.cn:8080/StudentQuery/CtrlViewQueryCourseTable")
                     .data("studentNo", username)
                     .cookies(res2.cookies())
                     .post();
+            Log.d("debug001",doc.body().text());
             Elements ele2 = doc.body().select("tr");
             for (int i = 3; i < ele2.size(); i++) {
                 if (ele2.get(i).getElementsByTag("td").text().equals("")) {
